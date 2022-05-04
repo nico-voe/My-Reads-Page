@@ -1,123 +1,48 @@
 import "./App.css";
 import { useState, useEffect } from "react";
-// import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import Header from './components/Header'
-import BookCard from './components/BookCard'
-import BookShelf from "./components/BookShelf";
-import { get, getAll, update } from './BooksAPI'
+import { Route, Routes } from "react-router-dom";
+import Search from "./components/Search.js";
+import Library from "./components/Library.js";
+import { update, getAll } from "./BooksAPI.js";
 
 function App() {
-  const [showSearchPage, setShowSearchpage] = useState(false);
-  const [data, setData] = useState([])
-  const [open, setOpen] = useState(false)
-  const [callApi, setCallApi] = useState(false)
+  const [updated, setUpdated] = useState([]);
+  const [myBooks, setMyBooks] = useState([]);
 
+  // api call for updating the backend
+  const updateBackend = (book, newShelf) => {
+    const myUpdate = async () => {
+      const updated = await update(book, newShelf);
+      setUpdated(updated);
+      // to trigger a rerender
+      // for library to update UI
+    };
+    myUpdate();
+  };
+
+  // api call for getting all books from the backend
   useEffect(() => {
-
-    const fetchData = async () => {
-      const getAllBooks = await getAll()
-      setData(getAllBooks)
-      console.log("- getAllBooks", getAllBooks);
-    }
-    fetchData()
-  }, [callApi])
-
-  const updateBook = async (book, e) => {
-    console.log("- book", book);
-    const bookShelf = e.target.value
-    setCallApi(!callApi)
-    await update(book, bookShelf)
-  }
-
-  const onClick = () => setOpen(!open)
+    const getAllBooks = async () => {
+      const response = await getAll();
+      setMyBooks(response);
+    };
+    getAllBooks();
+  }, [updated]);
 
   return (
     <div className="app">
-      {showSearchPage ? (
-        <div className="search-books">
-          <div className="search-books-bar">
-            <span
-              className="close-search"
-              onClick={() => setShowSearchpage(!showSearchPage)}
-            >
-              Close
-            </span>
-            <div className="search-books-input-wrapper">
-              <input
-                type="text"
-                placeholder="Search by title, author, or ISBN"
-              />
-            </div>
-          </div>
-          <div className="search-books-results">
-            <ol className="books-grid"></ol>
-          </div>
-        </div>
-      ) : (
-        <div className="list-books">
-
-          <Header />
-
-          <button onClick={() => onClick()}> hola</button>
-
-          {open && <p>alo mere dost</p>}
-
-          <div className="list-books-content">
-
-
-            <BookShelf title="Currently Reading">
-              {
-                data.map(book => {
-                  if (book.shelf === 'currentlyReading') {
-                    return (
-                      <BookCard book={book} key={book.id} updateBook={updateBook} />
-                    )
-                  }
-                })
-              }
-            </BookShelf>
-
-            <BookShelf title="Want to Read">
-              {
-                data.map(book => {
-                  if (book.shelf === "wantToRead") {
-                    return (
-                      <BookCard book={book} key={book.id} updateBook={updateBook} />
-                    )
-                  }
-                })
-              }
-            </BookShelf>
-
-            <BookShelf title="Read">
-              {
-                data.map(book => {
-                  if (book.shelf === 'read') {
-                    return <BookCard book={book} key={book.id} updateBook={updateBook} />
-                  }
-                })
-              }
-            </BookShelf>
-
-            <BookShelf title="None">
-              {
-                data.map(book => {
-                  if (book.shelf === 'none') {
-                    return <BookCard book={book} key={book.id} updateBook={updateBook} />
-                  }
-                })
-              }
-            </BookShelf>
-
-
-          </div>
-          <div className="open-search">
-            <a onClick={() => setShowSearchpage(!showSearchPage)}>Add a book</a>
-          </div>
-        </div>
-      )
-      }
-    </div >
+      <Routes>
+        <Route
+          exact
+          path="/"
+          element={<Library update={updateBackend} books={myBooks} />}
+        />
+        <Route
+          path="/search"
+          element={<Search update={updateBackend} backendBooks={myBooks} />}
+        />
+      </Routes>
+    </div>
   );
 }
 
