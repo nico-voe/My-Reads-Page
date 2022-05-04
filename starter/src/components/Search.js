@@ -49,7 +49,7 @@ const Search = ({ update, backendBooks }) => {
               backendBooks={backendBooks}
             />
           ) : (
-            <div>Type something to find your book</div>
+            <div><b>Type something to find your book</b></div>
           )}
         </ol>
       </div>

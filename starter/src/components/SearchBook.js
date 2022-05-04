@@ -54,7 +54,7 @@ const SearchBook = ({ books, update, backendBooks }) => {
           }
         })
       ) : (
-        <p>no books found</p>
+        <p><b>No books match your input. Try something else!</b></p>
       )}
     </>
   );
