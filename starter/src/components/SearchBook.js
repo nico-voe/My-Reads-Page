@@ -1,13 +1,7 @@
-import Cover from "./Cover.js";
+import Cover from "./BookCover.js";
 import Dropdown from "./Dropdown.js";
 
 const SearchBook = ({ books, update, backendBooks }) => {
-  // books come from search api - without shelf props
-  // we compare the searched books with those from the backend
-  // if in backend: they already have a shelf prop
-  // so we take the one from the backend
-  // if new: add a shelf prop with value "none"
-  // merge all together and map through for render
 
   const findBooks = (books) => (id) => books.find((b) => b.id === id);
   const findBookById = findBooks(backendBooks);
@@ -26,7 +20,7 @@ const SearchBook = ({ books, update, backendBooks }) => {
     });
   }
 
-  // for handling a new select in dropdown
+  // handling dropdown selection
   const handleShelf = (event, book) => {
     const selectedShelf = event.target.value;
     update(book, selectedShelf);

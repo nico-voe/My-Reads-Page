@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import Bookshelf from "./Bookshelf";
 
 const Library = ({ update, books }) => {
-  // function for filtering the books by their shelves
-  // the books come from the backend and do already have a shelf prop
+  // function to filter books by their shelfes
+
   const filterMyBooks = (books) => (shelf) =>
     books.filter((b) => b.shelf === shelf);
 

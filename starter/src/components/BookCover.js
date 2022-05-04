@@ -1,4 +1,4 @@
-const Cover = ({ link }) => {
+const BookCover = ({ link }) => {
   return (
     <div
       className="book-cover"
@@ -11,4 +11,4 @@ const Cover = ({ link }) => {
   );
 };
 
-export default Cover;
+export default BookCover;

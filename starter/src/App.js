@@ -14,13 +14,12 @@ function App() {
     const myUpdate = async () => {
       const updated = await update(book, newShelf);
       setUpdated(updated);
-      // to trigger a rerender
-      // for library to update UI
+      // trigger a rerender
     };
     myUpdate();
   };
 
-  // api call for getting all books from the backend
+  // api call for books from backend
   useEffect(() => {
     const getAllBooks = async () => {
       const response = await getAll();

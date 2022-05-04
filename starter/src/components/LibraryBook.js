@@ -1,9 +1,7 @@
-import Cover from "./Cover.js";
+import BookCover from "./BookCover.js";
 import Dropdown from "./Dropdown.js";
 
 const LibraryBook = ({ books, update }) => {
-  // books come from backend including shelf prop
-  // map for render
 
   const handleShelf = (event, book) => {
     const selectedShelf = event.target.value;
@@ -18,7 +16,7 @@ const LibraryBook = ({ books, update }) => {
             <li key={book.id}>
               <div className="book">
                 <div className="book-top">
-                  <Cover link={book.imageLinks.smallThumbnail} />
+                  <BookCover link={book.imageLinks.smallThumbnail} />
                   <Dropdown handleShelf={handleShelf} book={book} />
                 </div>
                 <div className="book-title">{book.title}</div>

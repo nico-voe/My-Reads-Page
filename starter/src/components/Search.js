@@ -7,7 +7,7 @@ const Search = ({ update, backendBooks }) => {
   const [input, setInput] = useState("");
   const [books, setBooks] = useState([]);
 
-  // api call for searching books by input
+  // searching books by input
   const searchForInput = (e) => {
     const inputValue = e.target.value;
     setInput(inputValue);
@@ -49,7 +49,7 @@ const Search = ({ update, backendBooks }) => {
               backendBooks={backendBooks}
             />
           ) : (
-            <div>no books found</div>
+            <div>Type something to find your book</div>
           )}
         </ol>
       </div>
